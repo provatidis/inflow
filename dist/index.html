@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>in flow — Make space for your attention.</title>
-<meta name="description" content="A quiet place for focused work, creativity, or meditation. Choose your time, settle in, and begin.">
+<meta name="description" content="A quiet companion for writing, study, and time to yourself. Begin with a small step, stay as long as you need, and leave a place to pick up next time.">
 <script>
 (()=>{let t;try{t=localStorage.getItem('next-thirty-theme')}catch{}document.documentElement.dataset.theme=t==='light'||t==='dark'?t:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'})();
 </script>
@@ -19,12 +19,13 @@
 </header>
 <main>
 <section id="setup" aria-labelledby="setup-title">
-<div class="intro"><h1 id="setup-title" tabindex="-1">Make space for<br>your attention.</h1></div>
+<div class="intro"><h1 id="setup-title" tabindex="-1">Make space for<br>your attention.</h1><p>Begin with a small step. Pick up where you left off.</p></div>
 <form id="session-form" novalidate>
 <div class="setup-card">
 <div class="intention-side">
 <label for="intention" class="field-title">What are you making time for? <span class="optional">Optional</span></label>
-<input id="intention" class="line-input" type="text" placeholder="Sketching, reading, sitting quietly…" maxlength="160" autocomplete="off">
+<input id="intention" class="line-input" type="text" placeholder="Writing a chapter, studying, sitting quietly…" maxlength="160" autocomplete="off">
+<div id="return-note" class="return-note" hidden><p class="note-label">Pick up where you left off</p><p id="return-step" class="return-step"></p><button id="edit-start" type="button" class="text-button">Edit starting point</button></div>
 <details id="starting-help"><summary>Help me get started <span aria-hidden="true">+</span></summary><div class="help-content"><label for="first-step">Where will you begin? <span class="optional">Optional</span></label><p>Choose a starting point that feels within reach.</p><input id="first-step" type="text" maxlength="160" placeholder="Write the opening paragraph…" autocomplete="off"><p class="example">Or settle into your usual meditation practice.</p></div></details>
 <p class="prepare">Put aside what can wait.</p>
 </div>
@@ -32,8 +33,13 @@
 <fieldset><legend class="field-title">How much time would you like?</legend><div class="duration-options" id="duration-options">
 <button type="button" data-minutes="15" aria-pressed="false">15 <span>min</span></button><button type="button" data-minutes="25" aria-pressed="true">25 <span>min</span></button><button type="button" data-minutes="45" aria-pressed="false">45 <span>min</span></button><button type="button" data-minutes="60" aria-pressed="false">1 <span>hour</span></button><button type="button" data-minutes="120" aria-pressed="false">2 <span>hours</span></button><button type="button" id="custom-toggle" aria-pressed="false" aria-expanded="false" aria-controls="custom-field">Custom</button>
 </div><div id="custom-field" class="custom-field" hidden><label for="custom-minutes">Minutes</label><input id="custom-minutes" type="number" inputmode="numeric" min="1" max="1440" step="1" value="30" aria-describedby="duration-error"><span id="duration-error" class="error" role="alert"></span></div></fieldset>
+<button type="button" id="open-toggle" class="open-option" aria-pressed="false">Open ended <span>Finish whenever you're ready</span></button>
+<details id="timed-settings" class="ending-settings"><summary>When time is up <span aria-hidden="true">+</span></summary>
 <div class="sound-setting"><label for="chime"><input type="checkbox" id="chime"><span class="switch" aria-hidden="true"></span><span>Gentle chime at the end</span></label><button type="button" id="preview-chime" class="text-button">Listen</button></div>
+<label class="soft-ending" for="soft-ending"><input id="soft-ending" type="checkbox" checked><span>Keep going when time is up</span></label>
+<p class="ending-note" id="ending-note">Your time is a gentle marker. Finish when you're ready.</p>
 <p id="sound-note" class="sound-note" hidden role="status"></p>
+</details>
 <button type="submit" class="primary" id="begin">Begin</button>
 </div>
 </div>
@@ -46,12 +52,13 @@
 <div id="quiet-face" class="quiet-face" hidden><svg viewBox="0 0 58 38" aria-hidden="true"><path d="M5 12C23-2 31 27 53 12M5 27C22 13 31 40 49 27"/></svg><p id="quiet-label">Your time is held.</p></div>
 </div>
 <div class="session-controls"><button id="hide-time" class="text-button" type="button" aria-pressed="false">Hide time</button><div class="action-row" id="session-actions"><button id="pause" type="button" class="primary session-primary">Pause</button><button id="finish" type="button" class="secondary" aria-controls="finish-question">Finish</button></div>
-<div id="finish-question" class="inline-confirmation" role="group" aria-labelledby="finish-question-title" hidden><p id="finish-question-title">Finish this session?</p><p class="confirmation-note">Your intention and duration will stay.</p><div class="action-row"><button id="keep-session" type="button" class="secondary">Keep going</button><button id="confirm-finish" type="button" class="primary">Finish session</button></div></div>
+<div id="finish-question" class="inline-confirmation" role="group" aria-labelledby="finish-question-title" hidden><p id="finish-question-title">Ready to finish?</p><div class="next-step-field"><label for="next-step">Where would you like to pick up? <span class="optional">Optional</span></label><input id="next-step" type="text" maxlength="160" placeholder="Draft the next paragraph…" autocomplete="off" aria-describedby="next-step-help"><p id="next-step-help">Leave a small starting point for your next visit.</p></div><div class="action-row"><button id="keep-session" type="button" class="secondary">Keep going</button><button id="confirm-finish" type="button" class="primary">Finish session</button></div></div>
 <button id="enable-chime" class="text-button" type="button" hidden>Enable chime</button><p id="session-message" class="session-message" role="status" hidden></p></div>
 </section>
 <section id="complete" class="complete" aria-labelledby="complete-title" hidden>
 <svg class="complete-mark" viewBox="0 0 58 38" aria-hidden="true"><path d="M5 12C23-2 31 27 53 12M5 27C22 13 31 40 49 27"/></svg>
 <h1 id="complete-title" tabindex="-1">Your time is complete.</h1><p id="complete-intention" class="complete-intention"></p>
+<div class="next-step-field complete-next-step"><label for="complete-next-step">Where would you like to pick up? <span class="optional">Optional</span></label><input id="complete-next-step" type="text" maxlength="160" placeholder="Open the next section…" autocomplete="off" aria-describedby="complete-step-help"><p id="complete-step-help">Leave a small starting point for your next visit.</p></div>
 <div class="action-row"><button type="button" id="complete-finish" class="primary">Finish</button><button type="button" id="continue" class="secondary" aria-describedby="continue-note">Continue</button></div><p id="continue-note" class="continue-note">Another 25 minutes, with the same intention.</p>
 </section>
 <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>

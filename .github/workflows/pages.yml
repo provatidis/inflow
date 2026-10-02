@@ -29,6 +29,7 @@ jobs:
       - name: Check the timer and JavaScript
         run: |
           node tests/timer.test.mjs
+          node tests/app.test.mjs
           node --check dist/app.mjs
           node --check dist/timer.mjs
 
