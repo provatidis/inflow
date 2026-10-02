@@ -45,12 +45,23 @@ The timer checks cover duration validation, hour formatting, pause/resume, expir
 - `dist/timer.mjs`: timer state and duration logic
 - `tests/timer.test.mjs`: timer behavior checks
 - `.openai/hosting.json`: existing Sites project identity and static output directory
+- `.github/workflows/pages.yml`: checks and publishes the app on GitHub Pages
 
 `dist/` is the editable source as well as the published static site; it is intentionally committed.
 
 ## Publishing
 
-This repository is the source for ongoing development. The public app is hosted on Sites. GitHub commits do not automatically deploy: publish a matching saved version through Sites to update the live app, preserving its current public audience and project ID.
+### GitHub Pages
+
+The `Publish GitHub Pages` workflow checks the timer and publishes `dist/` whenever changes are pushed to `main`. It can also be run manually from the repository's Actions tab. No build step is needed.
+
+The Pages address is https://provatidis.github.io/inflow/ once the first deployment succeeds.
+
+For the one-time setup, open the repository's **Settings → Pages** and choose **GitHub Actions** under **Build and deployment → Source**. If a workflow ran before Pages was enabled, re-run it from the Actions tab after choosing that source.
+
+### Sites
+
+The original public app remains at https://in-flow.provatidis.chatgpt.site. Sites publishing is separate: publish a matching saved version through Sites to update that address, preserving its current public audience and project ID.
 
 ## Local data and sound
 
