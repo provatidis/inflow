@@ -1,0 +1,9 @@
+import assert from'node:assert/strict';
+import{freshState,validMinutes,remaining,formatTime,durationText,advance,begin,pause,resume,finish,restore}from'../dist/timer.mjs';
+for(const m of [15,25,45,60,120,1,1440]){let s=begin({...freshState(),minutes:m},1000);assert.equal(remaining(s,1000),m*60);assert.equal(s.endAt,1000+m*60000);}
+for(const v of ['',0,-1,1.5,1441,'abc',Infinity])assert.equal(validMinutes(v),false);
+assert.equal(formatTime(7200),'2:00:00');assert.equal(formatTime(3600),'1:00:00');assert.equal(formatTime(3599),'59:59');assert.equal(durationText(120),'2 hours');
+let s=begin({...freshState(),minutes:120,intention:'Meditate',hideTime:true},1000);s=pause(s,62000);assert.equal(s.remaining,7139);assert.equal(remaining(s,900000),7139);s=resume(s,900000);assert.equal(remaining(s,901000),7138);s=restore(JSON.parse(JSON.stringify(s)),null,901000);assert.equal(remaining(s,901000),7138);assert.equal(s.hideTime,true);s=advance(s,s.endAt+100000);assert.equal(s.phase,'complete');assert.equal(s.remaining,0);s=begin(s,20000000);assert.equal(s.total,7200);s=finish(s);assert.equal(s.phase,'setup');assert.equal(s.minutes,120);assert.equal(s.intention,'Meditate');
+const legacy={goal:'Read',steps:['Open book','Read chapter','Reflect'],checks:[true,false,false],remaining:1800,end:1801000};s=restore(null,legacy,61000);assert.equal(s.intention,'Read');assert.equal(s.firstStep,'Read chapter');assert.equal(remaining(s,61000),1740);assert.equal(s.minutes,30);assert.equal(restore(null,{...legacy,end:1},61000).phase,'complete');
+assert.equal(pause(begin(freshState(),0),2000000).phase,'complete');assert.equal(restore({garbage:1},null).phase,'setup');
+console.log('Passed: all durations, custom validation, hour formatting, pause/resume, clock expiry, reload, continue, finish, preferences, old-session migration.');

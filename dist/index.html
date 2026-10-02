@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>in flow — Make space for your attention.</title>
+<meta name="description" content="A quiet place for focused work, creativity, or meditation. Choose your time, settle in, and begin.">
+<script>
+(()=>{let t;try{t=localStorage.getItem('next-thirty-theme')}catch{}document.documentElement.dataset.theme=t==='light'||t==='dark'?t:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'})();
+</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232843ef'/%3E%3Cg fill='none' stroke='white' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M13 25C29 13 35 37 51 25M13 38C27 27 34 48 47 38'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="app.mjs"></script>
+</head>
+<body>
+<header>
+<div class="brand" aria-label="in flow"><svg viewBox="0 0 58 38" aria-hidden="true"><path d="M5 12C23-2 31 27 53 12M5 27C22 13 31 40 49 27"/></svg><span>in flow</span></div>
+<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 13A9 9 0 0 1 11 3.2 9 9 0 1 0 20.8 13Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><span>Dark mode</span></button>
+</header>
+<main>
+<section id="setup" aria-labelledby="setup-title">
+<div class="intro"><h1 id="setup-title" tabindex="-1">Make space for<br>your attention.</h1></div>
+<form id="session-form" novalidate>
+<div class="setup-card">
+<div class="intention-side">
+<label for="intention" class="field-title">What are you making time for? <span class="optional">Optional</span></label>
+<input id="intention" class="line-input" type="text" placeholder="Sketching, reading, sitting quietly…" maxlength="160" autocomplete="off">
+<details id="starting-help"><summary>Help me get started <span aria-hidden="true">+</span></summary><div class="help-content"><label for="first-step">Where will you begin? <span class="optional">Optional</span></label><p>Choose a starting point that feels within reach.</p><input id="first-step" type="text" maxlength="160" placeholder="Write the opening paragraph…" autocomplete="off"><p class="example">Or settle into your usual meditation practice.</p></div></details>
+<p class="prepare">Put aside what can wait.</p>
+</div>
+<div class="duration-side">
+<fieldset><legend class="field-title">How much time would you like?</legend><div class="duration-options" id="duration-options">
+<button type="button" data-minutes="15" aria-pressed="false">15 <span>min</span></button><button type="button" data-minutes="25" aria-pressed="true">25 <span>min</span></button><button type="button" data-minutes="45" aria-pressed="false">45 <span>min</span></button><button type="button" data-minutes="60" aria-pressed="false">1 <span>hour</span></button><button type="button" data-minutes="120" aria-pressed="false">2 <span>hours</span></button><button type="button" id="custom-toggle" aria-pressed="false" aria-expanded="false" aria-controls="custom-field">Custom</button>
+</div><div id="custom-field" class="custom-field" hidden><label for="custom-minutes">Minutes</label><input id="custom-minutes" type="number" inputmode="numeric" min="1" max="1440" step="1" value="30" aria-describedby="duration-error"><span id="duration-error" class="error" role="alert"></span></div></fieldset>
+<div class="sound-setting"><label for="chime"><input type="checkbox" id="chime"><span class="switch" aria-hidden="true"></span><span>Gentle chime at the end</span></label><button type="button" id="preview-chime" class="text-button">Listen</button></div>
+<p id="sound-note" class="sound-note" hidden role="status"></p>
+<button type="submit" class="primary" id="begin">Begin</button>
+</div>
+</div>
+</form>
+</section>
+<section id="session" class="session" aria-labelledby="session-title" hidden>
+<div class="session-top"><p class="session-label" id="session-label">Your time</p><h1 id="session-title" tabindex="-1">Time for yourself.</h1><p id="session-start" class="session-start" hidden></p></div>
+<div class="time-space">
+<div id="timer-face" class="timer-face"><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="46"/><circle class="progress" id="progress" cx="50" cy="50" r="46"/></svg><div><div id="clock" class="digits" role="timer" aria-label="Time remaining">25:00</div><p id="clock-label" class="clock-label">Remaining</p></div></div>
+<div id="quiet-face" class="quiet-face" hidden><svg viewBox="0 0 58 38" aria-hidden="true"><path d="M5 12C23-2 31 27 53 12M5 27C22 13 31 40 49 27"/></svg><p id="quiet-label">Your time is held.</p></div>
+</div>
+<div class="session-controls"><button id="hide-time" class="text-button" type="button" aria-pressed="false">Hide time</button><div class="action-row" id="session-actions"><button id="pause" type="button" class="primary session-primary">Pause</button><button id="finish" type="button" class="secondary" aria-controls="finish-question">Finish</button></div>
+<div id="finish-question" class="inline-confirmation" role="group" aria-labelledby="finish-question-title" hidden><p id="finish-question-title">Finish this session?</p><p class="confirmation-note">Your intention and duration will stay.</p><div class="action-row"><button id="keep-session" type="button" class="secondary">Keep going</button><button id="confirm-finish" type="button" class="primary">Finish session</button></div></div>
+<button id="enable-chime" class="text-button" type="button" hidden>Enable chime</button><p id="session-message" class="session-message" role="status" hidden></p></div>
+</section>
+<section id="complete" class="complete" aria-labelledby="complete-title" hidden>
+<svg class="complete-mark" viewBox="0 0 58 38" aria-hidden="true"><path d="M5 12C23-2 31 27 53 12M5 27C22 13 31 40 49 27"/></svg>
+<h1 id="complete-title" tabindex="-1">Your time is complete.</h1><p id="complete-intention" class="complete-intention"></p>
+<div class="action-row"><button type="button" id="complete-finish" class="primary">Finish</button><button type="button" id="continue" class="secondary" aria-describedby="continue-note">Continue</button></div><p id="continue-note" class="continue-note">Another 25 minutes, with the same intention.</p>
+</section>
+<p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+</main>
+<footer><span id="storage-note">Saved in this browser, just for you.</span></footer>
+</body>
+</html>
