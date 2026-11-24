@@ -1,8 +1,8 @@
-# inflow
+# in flow
 
 **in flow** is a quiet companion for solo writing and study, with room for meditation or time to yourself. Begin with a small step, stay with it, and leave a place to pick up next time.
 
-[Use the public app](https://provatidis.github.io/inflow/)
+[Use the public app](https://provatidis.com/inflow/)
 
 ## Features
 
@@ -37,6 +37,7 @@ With Node.js 18 or later:
 node tests/timer.test.mjs
 node tests/app.test.mjs
 node --check dist/app.mjs
+node --check dist/timer.mjs
 ```
 
 The checks cover duration validation, timed and open-ended sessions, gentle and firm endings, precise pause/resume, alarm scheduling, next-time notes, session restoration, and migration from earlier versions. App checks use a small DOM harness against the shipped HTML and event handlers; device and visual testing are separate.
@@ -49,24 +50,13 @@ The checks cover duration validation, timed and open-ended sessions, gentle and 
 - `dist/timer.mjs`: timer state and duration logic
 - `tests/timer.test.mjs`: timer behavior checks
 - `tests/app.test.mjs`: app interaction and persistence checks
-- `.openai/hosting.json`: existing Sites project identity and static output directory
 - `.github/workflows/pages.yml`: checks and publishes the app on GitHub Pages
 
 `dist/` is the editable source as well as the published static site; it is intentionally committed.
 
 ## Publishing
 
-### GitHub Pages
-
-The `Publish GitHub Pages` workflow checks the timer and publishes `dist/` whenever changes are pushed to `main`. It can also be run manually from the repository's Actions tab. No build step is needed.
-
-The Pages address is https://provatidis.github.io/inflow/.
-
-For the one-time setup, open the repository's **Settings → Pages** and choose **GitHub Actions** under **Build and deployment → Source**. If a workflow ran before Pages was enabled, re-run it from the Actions tab after choosing that source.
-
-### Sites
-
-The original public app remains at https://in-flow.provatidis.chatgpt.site. Sites publishing is separate: publish a matching saved version through Sites to update that address, preserving its current public audience and project ID.
+The `Publish GitHub Pages` workflow checks the timer and publishes `dist/` to https://provatidis.com/inflow/ whenever changes are pushed to `main`. It can also be run manually from the repository's Actions tab. No build step is needed.
 
 ## Local data and sound
 
